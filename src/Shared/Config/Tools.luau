@@ -1,3 +1,7 @@
 local Types = require("@Shared/Types")
 
-return {} :: { [string]: Types.ToolInfo }
+return {
+	["Hammer"] = {
+		Damage = 25,
+	},
+} :: { [string]: Types.ToolInfo }

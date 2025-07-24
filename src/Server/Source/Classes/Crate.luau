@@ -63,7 +63,7 @@ function Crate.new(Name: string, SpawnLocation: Vector3, Owner: Player): Crate
 
 	local Model = CratesFolder:FindFirstChild(Name) :: Model
 	if Model then
-		self.Model = Model
+		self.Model = Model:Clone()
 		if self.Model.PrimaryPart then
 			self.Primary = self.Model.PrimaryPart :: Part
 		else
@@ -80,6 +80,7 @@ end
 
 function Crate.Init(self: Crate, SpawnLocation: Vector3)
 	self:Spawn(SpawnLocation)
+	self:SetupConnections()
 end
 
 function Crate.TakeDamage(self: Crate, Amount: number)
@@ -100,15 +101,13 @@ function Crate.TakeDamage(self: Crate, Amount: number)
 			--EndScale = 0.85
 		end
 
-		local Info = TweenInfo.new(0.07, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
+		local Info = TweenInfo.new(0.05, Enum.EasingStyle.Sine, Enum.EasingDirection.Out)
 
 		TweenModel.Scale(self.Model, 1, EndScale, Info, function()
 			TweenModel.Scale(self.Model, EndScale, 1, Info, function()
 				-- kill myself if im at 0 health
 				if self.Config.Health <= 0 then
-					print("well fuck me im cooked")
-
-					TweenModel.Scale(self.Model, 1, 0.00001, TweenInfo.new(1.25), function()
+					TweenModel.Scale(self.Model, 1, 0.00001, TweenInfo.new(0.75), function()
 						self:Destroy()
 					end)
 				end
@@ -121,17 +120,17 @@ function Crate.SetupConnections(self: Crate)
 	table.insert(
 		self._junk,
 		self.Primary.Touched:Connect(function(Hit: BasePart)
-			if Hit.Parent and Hit.Parent:IsA("Tool") then
-				local Character = Hit.Parent.Parent :: Model?
+			if Hit.Parent and Hit:FindFirstAncestorOfClass("Tool") then
+				local Tool = Hit:FindFirstAncestorOfClass("Tool") :: Tool
+				local Character = Tool.Parent :: Model?
 				if Character then
 					if Character.Name == self.Owner.Name then
-						local Tool = Hit.Parent :: Tool
 						-- only have it do dmg if its attack lmfao
 						if Tool:GetAttribute("Attacking") then
+							Tool:SetAttribute("Attacking", nil)
 							-- get the configuration for the tools
 							local ToolInfo: Types.ToolInfo = ToolConfig[Tool.Name]
 							if ToolInfo then
-								ToolInfo = table.freeze(ToolInfo)
 								self:TakeDamage(ToolInfo.Damage)
 							end
 						end

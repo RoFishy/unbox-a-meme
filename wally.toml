@@ -12,3 +12,4 @@ TypedPromise = "howmanysmall/typed-promise@4.0.6"
 
 [server-dependencies]
 cmdr = "evaera/cmdr@1.12.0"
+ProfileStore = "lm-loleris/profilestore@1.0.3"
