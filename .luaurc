@@ -7,7 +7,9 @@
         "Shared": "src/Shared/",
         "Utility": "src/Shared/Utility/",
         "ServerUtility": "src/Server/Source/Utility/",
-        "ClientUtility": "src/Client/Source/Utility/"
+        "ClientUtility": "src/Client/Source/Utility/",
+        "Config": "src/Shared/Config/",
+        "ServerClasses": "src/Server/Source/Classes/"
     },
     "languageMode": "strict"
 }

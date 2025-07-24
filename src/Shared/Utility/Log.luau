@@ -12,5 +12,8 @@ end
 Log.Debug = Log.CreateLogFunction("Debug", print)
 Log.Info = Log.CreateLogFunction("Info", print)
 Log.Warn = Log.CreateLogFunction("Warning", warn)
+Log.Error = Log.CreateLogFunction("Error", function(message, ...)
+	error(`{message} {...}`)
+end)
 
 return Log
