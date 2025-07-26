@@ -9,6 +9,6 @@ local Log = require("@Utility/Log")
 
 local StartTime = os.clock()
 Log.Warn("Starting client")
-Bootstrapper.load(Controllers)
+Bootstrapper.load(Controllers):await()
 local EndTime = os.clock() - StartTime
 Log.Warn(("Loading complete, took %.2f seconds"):format(EndTime))

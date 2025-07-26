@@ -6,6 +6,7 @@ local CratesFolder: Folder = ReplicatedStorage.Crates
 
 -- // packages
 local Signal = require("@Packages/Signal")
+local t = require("@Packages/t")
 
 -- // Utils
 local Log = require("@Utility/Log")
@@ -48,7 +49,10 @@ type CrateData = {
 }
 export type Crate = typeof(setmetatable({} :: CrateData, Crate))
 
+local crateCheck = t.tuple(t.string, t.Vector3, t.Instance)
 function Crate.new(Name: string, SpawnLocation: Vector3, Owner: Player): Crate
+	assert(crateCheck(Name, SpawnLocation, Owner))
+
 	local self = setmetatable({}, Crate) :: Crate
 	self.Name = Name
 	self.Owner = Owner

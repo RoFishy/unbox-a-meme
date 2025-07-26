@@ -8,6 +8,7 @@ export type ToolInfo = {
 
 export type UserData = {
 	Cash: number,
+	Tool: string,
 }
 
 export type PlotData = {

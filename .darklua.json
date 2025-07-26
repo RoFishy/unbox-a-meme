@@ -19,7 +19,8 @@
                     "@ServerUtility": "src/Server/Source/Utility/",
                     "@ClientUtility": "src/Client/Source/Utility/",
                     "@Config": "src/Shared/Config/",
-                    "@ServerClasses": "src/Server/Source/Classes/"
+                    "@ServerClasses": "src/Server/Source/Classes/",
+                    "@Interface": "src/Client/Source/Interface/"
                 }
             },
             "target": {

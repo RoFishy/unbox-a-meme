@@ -2,7 +2,12 @@
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 
+-- // Packages
+local t = require("@Packages/t")
+
+local posCheck = t.tuple(t.Instance, t.CFrame, t.TweenInfo, t.optional(t.callback))
 local function TweenPosition(Model: Model, TargetCFrame: CFrame, Info: TweenInfo, Callback: () -> ()?)
+	assert(posCheck(Model, TargetCFrame, Info, Callback))
 	local Value = Instance.new("CFrameValue")
 	Value.Value = Model:GetPivot()
 
@@ -35,7 +40,9 @@ local function TweenPosition(Model: Model, TargetCFrame: CFrame, Info: TweenInfo
 	end
 end
 
+local scaleCheck = t.tuple(t.Instance, t.numberPositive, t.numberPositive, t.TweenInfo, t.optional(t.callback))
 local function TweenScale(Model: Model, StartScale: number, EndScale: number, TweenInfo: TweenInfo, Callback: () -> ()?)
+	assert(scaleCheck(Model, StartScale, EndScale, TweenInfo, Callback))
 	local elapsed = 0
 	local scale = 0
 	local tweenConnection
