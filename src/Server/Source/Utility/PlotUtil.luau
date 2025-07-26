@@ -18,7 +18,7 @@ type PlotUtil = {
 	SetupSpawner: (self: PlotUtil, Plot: string) -> (),
 }
 
-type PlotModel = Model & {
+type PlotModel = Folder & {
 	Components: Folder & {
 		Teleport: Part,
 		CrateSpawn: Part,
@@ -92,11 +92,6 @@ function PlotUtil.AssignPlot(self: PlotUtil, Player: Player)
 	if PlotName then
 		self.Plots[PlotName].Owner = Player
 
-		local PlotModel = Plots:FindFirstChild(PlotName) :: PlotModel
-		if PlotModel then
-			PlotModel:SetAttribute("Owner", Player.Name)
-		end
-
 		self:TeleportPlayerToPlot(Player)
 		self:SetupSpawner(PlotName)
 	end
@@ -104,14 +99,7 @@ end
 
 function PlotUtil.ResetPlot(self: PlotUtil, Plot: string)
 	local PlotData: Types.PlotData = self.Plots[Plot]
-
 	if PlotData then
-		if PlotData.Owner then
-			local PlotModel = Plots:FindFirstChild(Plot) :: PlotModel
-			if PlotModel then
-				PlotModel:SetAttribute("Owner", nil)
-			end
-		end
 		PlotData.Owner = nil
 	end
 

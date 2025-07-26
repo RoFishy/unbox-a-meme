@@ -1,17 +1,17 @@
 -- // Services
-local SoundService = game:GetService("SoundService")
+--local SoundService = game:GetService("SoundService")
 local TweenService = game:GetService("TweenService")
 
 -- // Sounds
-local BtnClickSound = SoundService.BtnClick
-local BtnHoverSound = SoundService["Button Hover"]
+--local BtnClickSound = SoundService.BtnClick
+--local BtnHoverSound = SoundService["Button Hover"]
 
 -- // Constants
 local MOUSE_HOVER_SCALE = 1.15
 local MOUSE_DOWN_SCALE = 0.8
 
 -- // ButtonClass
-local function ButtonHandler(Button: ImageButton | TextButton | Frame, Callback: () -> ()?): () -> ()
+local function ButtonHandler(Button: ImageButton | TextButton | Frame, Callback: () -> ()?)
 	local ButtonConnections = {}
 
 	local UIScale = Instance.new("UIScale")
@@ -31,13 +31,13 @@ local function ButtonHandler(Button: ImageButton | TextButton | Frame, Callback:
 	end
 
 	if not Button or Button:IsA("Frame") then
-		return function() end
+		return
 	end
 
 	table.insert(
 		ButtonConnections,
 		Button.MouseEnter:Connect(function()
-			SoundService:PlayLocalSound(BtnHoverSound)
+			--SoundService:PlayLocalSound(BtnHoverSound)
 			TweenService:Create(UIScale, TweenInfo.new(0.15), { Scale = MOUSE_HOVER_SCALE }):Play()
 		end)
 	)
@@ -50,7 +50,7 @@ local function ButtonHandler(Button: ImageButton | TextButton | Frame, Callback:
 	table.insert(
 		ButtonConnections,
 		Button.MouseButton1Down:Connect(function()
-			SoundService:PlayLocalSound(BtnClickSound)
+			--SoundService:PlayLocalSound(BtnClickSound)
 			TweenService:Create(UIScale, TweenInfo.new(0.15), { Scale = MOUSE_DOWN_SCALE }):Play()
 		end)
 	)

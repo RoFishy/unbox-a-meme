@@ -1,6 +1,5 @@
 -- // Services
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local SoundService = game:GetService("SoundService")
 
 -- // Obj
 local ToolsFolder = ReplicatedStorage.Tools :: Folder & { Tool }
@@ -18,7 +17,7 @@ local HammerTool = {}
 HammerTool.__index = HammerTool
 
 type HammerToolData = {
-	Name: number,
+	Name: string,
 	Player: Player,
 	Object: Tool,
 	Config: Types.ToolInfo,
@@ -28,8 +27,8 @@ type HammerToolData = {
 
 export type HammerToolClass = typeof(setmetatable({} :: HammerToolData, HammerTool))
 
-local toolCheck = t.tuple(t.Instance, t.optional(t.number))
-function HammerTool.new(Player: Player, Name: number?): HammerToolClass?
+local toolCheck = t.tuple(t.Instance, t.optional(t.string))
+function HammerTool.new(Player: Player, Name: string?): HammerToolClass?
 	assert(toolCheck(Player, Name))
 	if not Name then
 		local PlayerData = DataUtil:GetData(Player)
@@ -55,7 +54,7 @@ function HammerTool.new(Player: Player, Name: number?): HammerToolClass?
 		Log.Error(`No config found for tool:  {Name}`)
 	end
 
-	local ToolObject = ToolsFolder:FindFirstChild(tostring(Name)) :: Tool
+	local ToolObject = ToolsFolder:FindFirstChild(Name) :: Tool
 	if ToolObject then
 		self.Object = ToolObject:Clone() :: Tool
 	else
@@ -90,7 +89,7 @@ function HammerTool:SetupConnections()
 				return
 			end
 			Debounce = true
-			--self.Object:SetAttribute("Attacking", true)
+			self.Object:SetAttribute("Attacking", true)
 
 			self.Player:SetAttribute("Animation", `Swing_{CurrentAttack}`)
 			if CurrentAttack == "Left" then
@@ -98,18 +97,6 @@ function HammerTool:SetupConnections()
 			else
 				CurrentAttack = "Left"
 			end
-
-			local SwingSound = SoundService:WaitForChild("Swing"):Clone() :: Sound
-			SwingSound.Parent = self.Object:WaitForChild("Handle")
-			SwingSound:Play()
-
-			SwingSound.Ended:Connect(function()
-				SwingSound:Destroy()
-			end)
-
-			task.delay(0.2, function()
-				self.Object:SetAttribute("Attacking", true)
-			end)
 
 			task.delay(0.75, function()
 				Debounce = false

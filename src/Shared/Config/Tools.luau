@@ -1,7 +1,7 @@
 local Types = require("@Shared/Types")
 
 return {
-	[1] = {
+	["Default"] = {
 		Damage = 25,
 	},
-} :: { [number]: Types.ToolInfo }
+} :: { [string]: Types.ToolInfo }
