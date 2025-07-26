@@ -39,7 +39,14 @@ end
 local InterfaceController = {}
 
 function InterfaceController:Init()
-	coreCall("SetCoreGuiEnabled", Enum.CoreGuiType.Backpack, false)
+	--coreCall("SetCoreGuiEnabled", Enum.CoreGuiType.Backpack, false)
+
+	for _, FrameModule in FrameModules:GetChildren() do
+		local Frame = (require)(FrameModule)
+		if Frame.Init then
+			task.spawn(Frame.Init)
+		end
+	end
 end
 
 function InterfaceController:Start()
